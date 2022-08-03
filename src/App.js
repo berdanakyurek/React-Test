@@ -10,8 +10,10 @@ function App() {
     const todoNameRef = useRef();
     useEffect(()=> {
         const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-        if(storedTodos)
-            setTodos(storedTodos)
+        console.log(storedTodos)
+        setTodos(storedTodos)
+        setShown(storedTodos)
+        setAllState(0)
     }, [])
 
     useEffect(()=> {
@@ -38,7 +40,6 @@ function App() {
         }
         return cnt;
 
-
     }
 
     function showAll(){
@@ -57,7 +58,7 @@ function App() {
         }
         setShown(newTodos)
         setAllState(1);
-        console.log(allState);
+        //console.log(allState);
     }
 
     function showInactive(){
@@ -99,7 +100,6 @@ function App() {
 
 
     function clearChecked(e){
-        console.log(todos)
         const newTodos = []
         for(var i = 0; i < todos.length; i ++ ){
             if(!todos[i].completed){
@@ -107,6 +107,8 @@ function App() {
             }
         }
         setTodos(newTodos)
+        setAllState(0)
+        setShown(newTodos)
     }
 
     return (
