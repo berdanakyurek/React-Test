@@ -28,6 +28,7 @@ function App() {
     const [isDarkEnabled, setIsDarkEnabled] = useState(false);
 
     const todoNameRef = useRef();
+
     useEffect(()=> {
         const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
         console.log("storedTodos")
@@ -37,11 +38,12 @@ function App() {
         setAllState(0)
     }, [])
 
-    useEffect(()=> {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
-    }, [todos])
+    useEffect(() => {
+        if (todos.length !== 0)
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+    }, [todos]);
 
-    function toggle(id){
+    function toggleTodo(id){
         const newTodos = [...todos];
         newTodos.map(todo => {
             if(todo.id == id)
@@ -154,7 +156,7 @@ function App() {
                     <FormControlLabel value="Completed" control={<Radio />} label="Completed" checked={allState==2} onClick ={showInactive}/>
                 </RadioGroup>
                 <div>
-                    <TodoList todos={shown} toggleTodo ={toggle} defaultChecked />
+                    <TodoList todos={shown} toggleTodo ={toggleTodo} defaultChecked />
                     <TextField  value={newTodoGlobal} onChange ={inputChange} label="Todo" variant="filled" />
                 </div>
                 <span>&nbsp;&nbsp;</span>
