@@ -30,8 +30,9 @@ function App() {
     const todoNameRef = useRef();
     useEffect(()=> {
         const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+        console.log("storedTodos")
         console.log(storedTodos)
-        setTodos(storedTodos)
+        if(storedTodos) setTodos(storedTodos)
         setShown(storedTodos)
         setAllState(0)
     }, [])
@@ -42,13 +43,13 @@ function App() {
 
     function toggle(id){
         const newTodos = [...todos];
-        todos.map(todo => {
+        newTodos.map(todo => {
             if(todo.id == id)
             {
                 todo.completed = !todo.completed
             }
-            setTodos(newTodos)
         })
+        setTodos(newTodos)
 
         showGeneral()
     }
