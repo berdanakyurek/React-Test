@@ -1,4 +1,5 @@
 import React from 'react'
+import Checkbox from '@mui/material/Checkbox';
 
 export default function Todo({todo, toggleTodo}) {
 
@@ -10,7 +11,7 @@ export default function Todo({todo, toggleTodo}) {
 
         <div>
             <label>
-                <input type="checkbox" checked={todo.completed} onChange= {handleTodoClick}/>
+                <Checkbox  checked={todo.completed} onChange= {handleTodoClick}/>
                 {todo.name}
             </label>
         </div>
