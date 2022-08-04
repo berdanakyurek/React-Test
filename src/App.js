@@ -25,7 +25,6 @@ function App() {
     const [todos, setTodos] = useState([]);
     const [shown, setShown] = useState([]);
     const [allState, setAllState] = useState(0);
-    const [newTodo, setNewTodo] = useState("");
     const [isDarkEnabled, setIsDarkEnabled] = useState(false);
 
     const todoNameRef = useRef();
@@ -107,18 +106,7 @@ function App() {
         }
     }
 
-    function handleAddTodo(e){
-        const name = newTodo
-        //todoNameRef.current.value
-        if(name === '') return
-        const newTodos = [...todos];
-        newTodos.push({id:uuidv4(), name:name, completed:false});
-        //console.log(newTodos)
-        setTodos(newTodos);
-        setAllState(0);
-        setShown(newTodos);
-        setNewTodo("")
-    }
+
 
 
     function clearChecked(e){
@@ -136,7 +124,26 @@ function App() {
     function toggleDarkMode(e){
         setIsDarkEnabled(!isDarkEnabled)
     }
+
+
     function AppContent(){
+        const [newTodoGlobal, setNewTodoGlobal] = useState("");
+
+        function handleAddTodo(e){
+            const name = newTodoGlobal
+            //todoNameRef.current.value
+            if(name === '') return
+            const newTodos = [...todos];
+            newTodos.push({id:uuidv4(), name:name, completed:false});
+            //console.log(newTodos)
+            setTodos(newTodos);
+            setAllState(0);
+            setShown(newTodos);
+            setNewTodoGlobal("")
+        }
+        const inputChange = e => {
+            setNewTodoGlobal(e.target.value);
+        };
         return (
             <>
                 <FormControlLabel control={<Switch checked={isDarkEnabled} onChange={toggleDarkMode} />} label="Dark Mode" />
@@ -147,11 +154,12 @@ function App() {
                 </RadioGroup>
                 <div>
                     <TodoList todos={shown} toggleTodo ={toggle} defaultChecked />
-                    <TextField value ={newTodo} onChange={(e) => {setNewTodo(e.target.value);}} label="Todo" variant="filled" />
+                    <TextField  value={newTodoGlobal} onChange ={inputChange} label="Todo" variant="filled" />
                 </div>
                 <span>&nbsp;&nbsp;</span>
                 <div>
                     <Button variant="contained" onClick ={handleAddTodo}>Add</Button>
+                    <span>&nbsp;&nbsp;</span>
                     <Button variant="contained" onClick ={clearChecked}>Clear</Button>
                 </div>
                 <span>&nbsp;&nbsp;</span>
